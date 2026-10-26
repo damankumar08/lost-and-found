@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        {{ item["name"] }} - Lost & Found
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+
+    <nav>
+
+        <h2>Campus Lost & Found</h2>
+
+        <div>
+
+            <a href="/">Home</a>
+
+            <a href="/items">Browse Items</a>
+
+            <a href="/dashboard">Dashboard</a>
+
+            {% if session.get("user_id") %}
+            <a href="/logout">Logout</a>
+            {% else %}
+            <a href="/login">Login</a>
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+
+    <div class="details-container">
+
+
+        <div class="details-image">
+
+            {% if item["image"] %}
+
+            <img src="{{ url_for(
+                    'static',
+                    filename='uploads/' + item['image']
+                ) }}" alt="{{ item['name'] }}">
+
+            {% else %}
+
+            <div class="large-no-image">
+                No Image Available
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="details-content">
+
+
+            <span class="item-type
+            {% if item['type'] == 'lost' %}
+                lost
+            {% else %}
+                found
+            {% endif %}
+        ">
+
+                {{ item["type"].upper() }}
+
+            </span>
+
+
+            <h1>
+                {{ item["name"] }}
+            </h1>
+
+
+            <p>
+                <strong>Category:</strong>
+                {{ item["category"] }}
+            </p>
+
+
+            <p>
+                <strong>Location:</strong>
+                {{ item["location"] }}
+            </p>
+
+
+            <p>
+                <strong>Date:</strong>
+                {{ item["date"] }}
+            </p>
+
+
+            <div class="description">
+
+                <h3>Description</h3>
+
+                <p>
+                    {{ item["description"] or
+                    "No description provided." }}
+                </p>
+
+            </div>
+
+
+            <div class="posted-user">
+
+                <h3>Posted By</h3>
+
+                <p>
+                    {{ item["username"] }}
+                </p>
+
+            </div>
+
+
+            {% if session.get("user_id") %}
+
+            {% if session["user_id"] != item["user_id"] %}
+
+            <a href="mailto:{{ item['user_email'] }}" class="contact-btn">
+                Contact {{ item["username"] }}
+            </a>
+
+            {% endif %}
+
+
+            {% if session["user_id"] == item["user_id"] %}
+
+            <a href="{{ url_for(
+                        'mark_recovered',
+                        item_id=item['id']
+                    ) }}" class="recovered-btn">
+                Mark as Recovered
+            </a>
+
+            {% endif %}
+
+            {% else %}
+
+            <a href="/login" class="contact-btn">
+                Login to Contact User
+            </a>
+
+            {% endif %}
+
+
+            <br><br>
+            <!-- SMART MATCHES -->
+
+            {% if matches %}
+
+            <div class="matches-section">
+
+                <h2>🤖 Possible Matches</h2>
+
+                <p class="match-info">
+                    Our system found these potentially matching reports.
+                </p>
+
+
+                {% for match in matches %}
+
+                <div class="match-card">
+
+                    <div>
+
+                        <h3>
+                            {{ match["item"]["name"] }}
+                        </h3>
+
+                        <p>
+                            {{ match["item"]["location"] }}
+                        </p>
+
+                        <p>
+                            {{ match["item"]["description"] or
+                            "No description provided." }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="match-score">
+
+                        {{ match["score"] }}%
+
+                        <span>
+                            Match
+                        </span>
+
+                    </div>
+
+
+                    <a href="{{ url_for(
+                               'item_details',
+                                item_id=match['item']['id']
+                             ) }}" class="small-btn">
+                            View
+                    </a>
+                    <a href="{{ url_for(
+                               'claim_item',
+                               item_id=match['item']['id']
+                             ) }}" class="claim-btn">
+                             Claim / Report Match
+                    </a>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+            <br><br>
+            <a href="/items" class="back-btn">
+                ← Back to Items
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

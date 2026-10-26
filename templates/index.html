@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Lost & Found</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<nav>
+
+    <div class="nav-container">
+
+        <h2>🎒 Campus Lost & Found</h2>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/items">Browse Items</a>
+
+            {% if session.get("user_id") %}
+
+                <a href="/report/lost">Report Lost</a>
+
+                <a href="/report/found">Report Found</a>
+
+                <a href="/claims">Claims</a>
+
+                {% if session.get("is_admin") == 1 %}
+
+                    <a href="/admin">Admin</a>
+
+                {% endif %}
+
+                <a href="/logout">Logout</a>
+
+            {% else %}
+
+                <a href="/login">Login</a>
+
+                <a href="/register" class="nav-button">
+                    Register
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-text">
+
+            <p class="hero-tag">
+                🎓 Campus Community Platform
+            </p>
+
+            <h1>
+                Lost Something?
+                <br>
+                <span>Let's Find It.</span>
+            </h1>
+
+            <p class="hero-description">
+
+                A simple and smart platform for students
+                to report lost items, post found items,
+                and reconnect belongings with their owners.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+                {% if session.get("user_id") %}
+
+                    <a
+                        href="/report/lost"
+                        class="primary-btn"
+                    >
+                        Report Lost Item
+                    </a>
+
+                    <a
+                        href="/report/found"
+                        class="secondary-btn"
+                    >
+                        Report Found Item
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="/register"
+                        class="primary-btn"
+                    >
+                        Get Started
+                    </a>
+
+                    <a
+                        href="/items"
+                        class="secondary-btn"
+                    >
+                        Browse Items
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <div class="hero-icon">
+                🔍
+            </div>
+
+            <h3>
+                Smart Item Matching
+            </h3>
+
+            <p>
+                Our NLP-based matching system
+                helps identify potentially similar
+                lost and found reports.
+            </p>
+
+            <div class="match-demo">
+
+                <span>
+                    Black HP Laptop
+                </span>
+
+                <strong>
+                    87%
+                </strong>
+
+            </div>
+
+            <small>
+                Similarity detected
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="features">
+
+    <div class="section-heading">
+
+        <p>
+            HOW IT WORKS
+        </p>
+
+        <h2>
+            One Platform. Three Simple Steps.
+        </h2>
+
+    </div>
+
+
+    <div class="feature-grid">
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📢
+            </div>
+
+            <h3>
+                Report
+            </h3>
+
+            <p>
+                Report an item you've lost or
+                an item you've found on campus.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🤖
+            </div>
+
+            <h3>
+                Match
+            </h3>
+
+            <p>
+                Our smart matching system compares
+                reports to find possible matches.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🤝
+            </div>
+
+            <h3>
+                Recover
+            </h3>
+
+            <p>
+                Submit a claim and reconnect the
+                lost item with its rightful owner.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- PROJECT FEATURES -->
+
+<section class="about-project">
+
+    <div>
+
+        <p class="section-label">
+            BUILT FOR CAMPUS
+        </p>
+
+        <h2>
+            More than just a Lost & Found board.
+        </h2>
+
+        <p>
+            Campus Lost & Found combines a simple web
+            interface with database management and
+            natural language processing to make finding
+            lost belongings easier.
+        </p>
+
+    </div>
+
+
+    <div class="tech-list">
+
+        <div>
+            <strong>🐍 Python</strong>
+            <span>Backend</span>
+        </div>
+
+        <div>
+            <strong>🌐 Flask</strong>
+            <span>Web Framework</span>
+        </div>
+
+        <div>
+            <strong>🗄️ SQLite</strong>
+            <span>Database</span>
+        </div>
+
+        <div>
+            <strong>🤖 TF-IDF</strong>
+            <span>NLP Matching</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        © 2026 Campus Lost & Found
+    </p>
+
+    <p>
+        Built as a B.Tech CSE Mini Project
+    </p>
+
+</footer>
+
+</body>
+
+</html>

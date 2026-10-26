@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Claims Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+<nav>
+
+    <h2>Campus Lost & Found</h2>
+
+    <div>
+
+        <a href="/">Home</a>
+
+        <a href="/items">Items</a>
+
+        <a href="/dashboard">Dashboard</a>
+
+        <a href="/logout">Logout</a>
+
+    </div>
+
+</nav>
+
+
+<div class="claims-container">
+
+    <h1>📋 Claims Dashboard</h1>
+
+    <p class="claims-subtitle">
+        Review people who have claimed your reported items.
+    </p>
+
+
+    {% if claims %}
+
+        {% for claim in claims %}
+
+        <div class="claim-card">
+
+            <div class="claim-header">
+
+                <div>
+
+                    <h2>
+                        {{ claim["item_name"] }}
+                    </h2>
+
+                    <span class="claim-type">
+                        {{ claim["item_type"].upper() }}
+                    </span>
+
+                </div>
+
+
+                {% if claim["status"] == "pending" %}
+
+                    <span class="status-pending">
+                        PENDING
+                    </span>
+
+                {% elif claim["status"] == "approved" %}
+
+                    <span class="status-approved">
+                        APPROVED
+                    </span>
+
+                {% else %}
+
+                    <span class="status-rejected">
+                        REJECTED
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="claim-info">
+
+                <p>
+                    <strong>Claimant:</strong>
+                    {{ claim["claimant_name"] }}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    {{ claim["claimant_email"] }}
+                </p>
+
+                <p>
+                    <strong>Message:</strong>
+                </p>
+
+                <div class="claim-message">
+                    {{ claim["message"] }}
+                </div>
+
+                <p class="claim-date">
+                    Submitted:
+                    {{ claim["created_at"] }}
+                </p>
+
+            </div>
+
+
+            {% if claim["status"] == "pending" %}
+
+            <div class="claim-actions">
+
+                <a
+                    href="{{ url_for(
+                        'handle_claim',
+                        claim_id=claim['id'],
+                        action='approve'
+                    ) }}"
+                    class="approve-btn"
+                    onclick="return confirm(
+                        'Approve this claim? The item will be marked as recovered.'
+                    );"
+                >
+                    ✓ Approve Claim
+                </a>
+
+
+                <a
+                    href="{{ url_for(
+                        'handle_claim',
+                        claim_id=claim['id'],
+                        action='reject'
+                    ) }}"
+                    class="reject-btn"
+                    onclick="return confirm(
+                        'Reject this claim?'
+                    );"
+                >
+                    ✕ Reject
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="no-claims">
+
+            <h2>📭 No Claims Yet</h2>
+
+            <p>
+                You don't have any claims on your reported items.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

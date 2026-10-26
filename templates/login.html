@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Campus Lost & Found</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <nav>
+        <h2>Campus Lost & Found</h2>
+
+        <div>
+            <a href="/">Home</a>
+            <a href="/register">Register</a>
+        </div>
+    </nav>
+
+    <div class="form-container">
+
+        <h1>Login</h1>
+
+        <form method="POST">
+
+            <input
+                type="email"
+                name="email"
+                placeholder="College Email"
+                required
+            >
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+            >
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <p>
+            Don't have an account?
+            <a href="/register">Register</a>
+        </p>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <nav>
+
+        <h2>Campus Lost & Found</h2>
+
+        <div>
+
+            <a href="/">Home</a>
+            <a href="/items">Items</a>
+            <a href="/logout">Logout</a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="admin-container">
+
+        <h1>Admin Dashboard</h1>
+
+        <p class="admin-subtitle">
+            Manage the Campus Lost & Found system
+        </p>
+
+
+        <!-- STATISTICS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <h3>Total Users</h3>
+
+                <p>{{ total_users }}</p>
+
+            </div>
+
+
+            <div class="stat-card lost-stat">
+
+                <h3>Active Lost</h3>
+
+                <p>{{ total_lost }}</p>
+
+            </div>
+
+
+            <div class="stat-card found-stat">
+
+                <h3>Active Found</h3>
+
+                <p>{{ total_found }}</p>
+
+            </div>
+
+
+            <div class="stat-card recovered-stat">
+
+                <h3>Recovered</h3>
+
+                <p>{{ total_recovered }}</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECENT REPORTS -->
+
+        <div class="admin-section">
+
+            <h2>Recent Reports</h2>
+
+            {% if recent_items %}
+
+            <div class="admin-table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Item</th>
+                            <th>Type</th>
+                            <th>Category</th>
+                            <th>Location</th>
+                            <th>Posted By</th>
+                            <th>Status</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for item in recent_items %}
+
+                        <tr>
+
+                            <td>
+                                {{ item["name"] }}
+                            </td>
+
+                            <td>
+                                {{ item["type"].upper() }}
+                            </td>
+
+                            <td>
+                                {{ item["category"] }}
+                            </td>
+
+                            <td>
+                                {{ item["location"] }}
+                            </td>
+
+                            <td>
+                                {{ item["username"] }}
+                            </td>
+
+                            <td>
+                                {{ item["status"] }}
+                            </td>
+                            <td>
+
+                                <a href="{{ url_for('item_details', item_id=item['id']) }}" class="small-btn">
+                                    View
+                                </a>
+
+                                <a href="{{ url_for('delete_item', item_id=item['id']) }}" class="delete-btn"
+                                    onclick="return confirm('Are you sure you want to delete this report?');">
+                                    Delete
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <p>No reports yet.</p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- REGISTERED USERS -->
+
+        <div class="admin-section">
+
+            <h2>Registered Users</h2>
+
+            <div class="admin-table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for user in users %}
+
+                        <tr>
+
+                            <td>
+                                {{ user["id"] }}
+                            </td>
+
+                            <td>
+                                {{ user["name"] }}
+                            </td>
+
+                            <td>
+                                {{ user["email"] }}
+                            </td>
+
+                            <td>
+
+                                {% if user["is_admin"] == 1 %}
+
+                                <span class="admin-badge">
+                                    ADMIN
+                                </span>
+
+                                {% else %}
+
+                                User
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

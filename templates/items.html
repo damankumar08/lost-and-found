@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Lost & Found Items</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+    <nav>
+
+        <h2>Campus Lost & Found</h2>
+
+        <div>
+
+            <a href="/">Home</a>
+
+            <a href="/dashboard">Dashboard</a>
+
+            <a href="/logout">Logout</a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="items-container">
+
+        <h1>Lost & Found Items</h1>
+
+
+        <!-- SEARCH AND FILTER -->
+
+        <form method="GET" action="/items" class="filter-form">
+
+
+            <input type="text" name="search" placeholder="Search item..." value="{{ search }}">
+
+
+            <input type="text" name="location" placeholder="Location..." value="{{ location }}">
+
+
+            <select name="category">
+
+                <option value="">
+                    All Categories
+                </option>
+
+                <option value="Electronics" {% if category=="Electronics" %}selected{% endif %}>
+                    Electronics
+                </option>
+
+                <option value="Books" {% if category=="Books" %}selected{% endif %}>
+                    Books
+                </option>
+
+                <option value="Clothing" {% if category=="Clothing" %}selected{% endif %}>
+                    Clothing
+                </option>
+
+                <option value="Accessories" {% if category=="Accessories" %}selected{% endif %}>
+                    Accessories
+                </option>
+
+                <option value="Documents" {% if category=="Documents" %}selected{% endif %}>
+                    Documents
+                </option>
+
+                <option value="Other" {% if category=="Other" %}selected{% endif %}>
+                    Other
+                </option>
+
+            </select>
+
+
+            <select name="type">
+
+                <option value="">
+                    Lost & Found
+                </option>
+
+                <option value="lost" {% if item_type=="lost" %}selected{% endif %}>
+                    Lost
+                </option>
+
+                <option value="found" {% if item_type=="found" %}selected{% endif %}>
+                    Found
+                </option>
+
+            </select>
+
+
+            <button type="submit">
+                Search
+            </button>
+
+
+            <a href="/items" class="reset-btn">
+                Reset
+            </a>
+
+        </form>
+
+
+        <!-- ITEMS -->
+
+        {% if items %}
+
+
+        <div class="items-grid">
+
+
+            {% for item in items %}
+
+
+            <div class="item-card">
+
+
+                {% if item["image"] %}
+
+                <img src="{{ url_for(
+                    'static',
+                    filename='uploads/' + item['image']
+                ) }}" alt="Item image">
+
+                {% else %}
+
+                <div class="no-image">
+                    No Image
+                </div>
+
+                {% endif %}
+
+
+                <div class="item-content">
+
+
+                    <span class="item-type
+                    {% if item['type'] == 'lost' %}
+                        lost
+                    {% else %}
+                        found
+                    {% endif %}
+                ">
+
+                        {{ item["type"].upper() }}
+
+                    </span>
+
+
+                    <h2>
+                        {{ item["name"] }}
+                    </h2>
+
+
+                    <p>
+                        <strong>Category:</strong>
+                        {{ item["category"] }}
+                    </p>
+
+
+                    <p>
+                        <strong>Location:</strong>
+                        {{ item["location"] }}
+                    </p>
+
+
+                    <p>
+                        <strong>Date:</strong>
+                        {{ item["date"] }}
+                    </p>
+
+
+                    {% if item["description"] %}
+
+                    <p>
+                        {{ item["description"] }}
+                    </p>
+
+                    {% endif %}
+
+
+                    <p class="posted-by">
+
+                        Posted by
+                        {{ item["username"] }}
+
+                    </p>
+                    <a href="{{ url_for('item_details', item_id=item['id']) }}" class="details-btn">
+                        View Details
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="no-results">
+
+            <h2>No items found 🔍</h2>
+
+            <p>
+                Try changing your search or filters.
+            </p>
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</body>
+
+</html>

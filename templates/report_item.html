@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>
+        Report {{ item_type.title() }} Item
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>Campus Lost & Found</h2>
+
+    <div>
+
+        <a href="/dashboard">Dashboard</a>
+
+        <a href="/items">Browse Items</a>
+
+        <a href="/logout">Logout</a>
+
+    </div>
+
+</nav>
+
+
+<div class="form-container">
+
+    <h1>
+        Report {{ item_type.title() }} Item
+    </h1>
+
+    <form method="POST"
+          enctype="multipart/form-data">
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Item Name"
+            required
+        >
+
+
+        <select name="category" required>
+
+            <option value="">
+                Select Category
+            </option>
+
+            <option value="Electronics">
+                Electronics
+            </option>
+
+            <option value="Books">
+                Books
+            </option>
+
+            <option value="Clothing">
+                Clothing
+            </option>
+
+            <option value="Accessories">
+                Accessories
+            </option>
+
+            <option value="Documents">
+                Documents
+            </option>
+
+            <option value="Other">
+                Other
+            </option>
+
+        </select>
+
+
+        <textarea
+            name="description"
+            placeholder="Describe the item..."
+            rows="5"
+        ></textarea>
+
+
+        <input
+            type="text"
+            name="location"
+            placeholder="Location"
+            required
+        >
+
+
+        <label>
+            Date:
+        </label>
+
+        <input
+            type="date"
+            name="date"
+            required
+        >
+
+
+        <label>
+            Upload Image:
+        </label>
+
+        <input
+            type="file"
+            name="image"
+            accept="image/*"
+        >
+
+
+        <button type="submit">
+            Submit Report
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

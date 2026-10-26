@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Campus Lost & Found</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+    <nav>
+
+        <h2>Campus Lost & Found</h2>
+
+      <div>
+
+    <a href="/">Home</a>
+
+    <a href="/items">Browse Items</a>
+
+    <a href="/report/lost">Report Lost</a>
+
+    <a href="/report/found">Report Found</a>
+
+    <a href="/claims">Claims</a>
+
+    {% if session.get("is_admin") == 1 %}
+        <a href="/admin">Admin Dashboard</a>
+    {% endif %}
+
+    <a href="/logout">Logout</a>
+
+</div>
+
+    </nav>
+
+    <div class="dashboard">
+
+        <h1>Welcome, {{ name }}! 👋</h1>
+
+        <p>
+            Welcome to your Lost & Found dashboard.
+        </p>
+
+        <div class="dashboard-buttons">
+
+            <a href="/report/lost" class="btn">
+                Report Lost Item
+            </a>
+
+            <a href="/report/found" class="btn secondary">
+                Report Found Item
+            </a>
+
+        </div>
+
+        <br>
+
+        <a href="/items" class="btn">
+            Browse Lost & Found Items
+        </a>
+
+    </div>
+
+</body>
+
+</html>

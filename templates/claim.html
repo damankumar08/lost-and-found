@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Claim Item</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>Campus Lost & Found</h2>
+
+    <div>
+
+        <a href="/">Home</a>
+        <a href="/items">Items</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Logout</a>
+
+    </div>
+
+</nav>
+
+
+<div class="claim-container">
+
+    <h1>Claim / Report Match</h1>
+
+    <p>
+        You are responding to:
+        <strong>{{ item["name"] }}</strong>
+    </p>
+
+    <form
+        method="POST"
+        class="claim-form"
+    >
+
+        <label for="message">
+            Why do you think this is your item?
+        </label>
+
+        <textarea
+            id="message"
+            name="message"
+            rows="6"
+            placeholder="Describe identifying details, such as stickers, serial number, marks, case, etc."
+            required
+        ></textarea>
+
+        <button type="submit">
+            Submit Claim
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

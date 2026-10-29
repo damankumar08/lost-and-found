@@ -179,4 +179,4 @@ On first run, the tables are created automatically and a default admin account i
 
 - **Name:** Daman Kumar
 - **Course / Department:** B.Tech Cse DS 
-- **College:** AKTU
+- **University:** AKTU
